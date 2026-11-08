@@ -4,8 +4,8 @@ self.onmessage=async({data})=>{
  if(data.type==='init'){
   try{
    const {FilesetResolver,ObjectDetector}=await import('./vendor/mediapipe/vision_bundle.mjs');
-   const files=await FilesetResolver.forVisionTasks('/vendor/mediapipe/wasm');
-   detector=await ObjectDetector.createFromOptions(files,{baseOptions:{modelAssetPath:'/models/efficientdet_lite0.tflite',delegate:'CPU'},runningMode:'IMAGE',scoreThreshold:.35,maxResults:8});
+   const files=await FilesetResolver.forVisionTasks('./vendor/mediapipe/wasm');
+   detector=await ObjectDetector.createFromOptions(files,{baseOptions:{modelAssetPath:'./models/efficientdet_lite0.tflite',delegate:'CPU'},runningMode:'IMAGE',scoreThreshold:.35,maxResults:8});
    self.postMessage({type:'ready'});
   }catch(error){self.postMessage({type:'error',message:error?.message||String(error)});}
  }
