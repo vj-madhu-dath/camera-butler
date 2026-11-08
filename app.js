@@ -24,7 +24,7 @@ function disableAI(note='AI is off. Tap a subject for manual guidance.',keepSamp
  aiEpoch++;clearTimeout(aiTimer);clearTimeout(aiWatchdog);aiTimer=null;aiBusy=false;aiLoading=false;
  if(aiWorker){aiWorker.terminate();aiWorker=null;}
  const wasSample=aiMode==='sample';aiMode='off';
- if(wasSample&&!stream&&!keepSample){$('demoImage').src='/scene.svg';$('demoImage').alt='Illustrated coastal landscape for trying the framing guides';$('modeBadge').innerHTML='<i></i> DEMO VIEW';$('cameraNote').textContent='Try the demo, or enable your camera. Nothing is uploaded.';}
+ if(wasSample&&!stream&&!keepSample){$('demoImage').src='./scene.svg';$('demoImage').alt='Illustrated coastal landscape for trying the framing guides';$('modeBadge').innerHTML='<i></i> DEMO VIEW';$('cameraNote').textContent='Try the demo, or enable your camera. Nothing is uploaded.';}
  $('aiStatus').textContent='OFF';$('aiInfo').textContent=note;resetAIDisplay();updateAIButtons();
 }
 function aiFailure(message){disableAI('AI unavailable. Manual framing still works.');$('aiStatus').textContent='UNAVAILABLE';toast(message||'Could not start on-device AI. Please try again.');}
@@ -57,7 +57,7 @@ async function enableAI(mode){
  if(mode==='sample'&&stream)stop();
  const epoch=++aiEpoch;aiFrames=0;aiMode=mode;aiLoading=true;subject=null;$('subject').hidden=true;
  if(mode==='sample'){
-  $('demoImage').src='/samples/cats_and_dogs.jpg';$('demoImage').alt='Sample photograph of cats and dogs for testing AI detection';$('cameraNote').textContent='AI sample — no camera access or image upload.';$('modeBadge').innerHTML='<i></i> AI SAMPLE';
+  $('demoImage').src='./samples/cats_and_dogs.jpg';$('demoImage').alt='Sample photograph of cats and dogs for testing AI detection';$('cameraNote').textContent='AI sample — no camera access or image upload.';$('modeBadge').innerHTML='<i></i> AI SAMPLE';
  }
  $('aiStatus').textContent='LOADING';$('aiInfo').textContent='Loading the local model; this can take a moment.';resetAIDisplay();updateAIButtons();
  try{
