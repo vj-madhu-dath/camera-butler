@@ -1,0 +1,7 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';import {presets,nearestThird,framingAdvice,exposureAdvice,horizonRoll} from './guidance.js';
+test('all four presets have valid in-frame targets',()=>{assert.equal(Object.keys(presets).length,4);for(const p of Object.values(presets)){assert.ok(p.target.x>0&&p.target.x<1);assert.ok(p.target.y>0&&p.target.y<1);assert.ok(p.tip.length>20);}});
+test('nearest third snaps to correct intersection',()=>{assert.equal(nearestThird(.8,.2).x,2/3);assert.equal(nearestThird(.8,.2).y,1/3);});
+test('framing advice handles unset and aligned subjects',()=>{assert.match(framingAdvice(null,{}).title,/Choose/);assert.equal(framingAdvice({x:.34,y:.34},{x:1/3,y:1/3}).aligned,true);});
+test('camera pan direction compensates for subject position',()=>{assert.match(framingAdvice({x:.9,y:.3},{x:.3,y:.3}).title,/right/);assert.match(framingAdvice({x:.1,y:.3},{x:.7,y:.3}).title,/left/);assert.match(framingAdvice({x:.3,y:.9},{x:.3,y:.3}).title,/down/);});
+test('horizon roll accounts for screen rotation',()=>{assert.equal(horizonRoll(0,10,0),10);assert.equal(horizonRoll(10,0,90),-10);assert.equal(horizonRoll(10,0,270),10);assert.equal(horizonRoll(0,10,180),-10);});
+test('brightness guidance handles ranges',()=>{assert.match(exposureAdvice(20),/Low light/);assert.match(exposureAdvice(240),/Bright scene/);assert.match(exposureAdvice(130),/balanced/);});

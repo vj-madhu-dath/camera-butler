@@ -1,0 +1,5 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';import {coverBox,chooseDetection,aiAdvice} from './vision-geometry.js';
+test('projects landscape source into portrait crop',()=>{assert.deepEqual(coverBox({originX:300,originY:0,width:300,height:900},1200,900,300,450),{x:0,y:0,width:.5,height:1});});
+test('ignores subject outside cropped view',()=>{assert.equal(coverBox({originX:0,originY:0,width:200,height:100},1200,900,300,450),null);});
+test('ranks person first in portrait mode',()=>{const d=[{boundingBox:{originX:0,originY:0,width:30,height:30},categories:[{categoryName:'cat',score:.9}]},{boundingBox:{originX:50,originY:50,width:20,height:20},categories:[{categoryName:'person',score:.5}]}];assert.equal(chooseDetection(d,100,100,100,100,'portrait').label,'person');});
+test('live advice uses camera pan rather than subject motion',()=>{const item={label:'cat',box:{x:.7,y:.3,width:.1,height:.1}};assert.match(aiAdvice(item,{x:.3,y:.3}).title,/right/);assert.match(aiAdvice(null,{}).title,/Looking/);});

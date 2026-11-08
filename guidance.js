@@ -1,0 +1,10 @@
+export const presets={
+ portrait:{label:'Portrait',angle:'Eye level',tip:'Keep the lens near eye level. Turn your subject slightly toward soft light.',target:{x:1/3,y:1/3}},
+ landscape:{label:'Landscape',angle:'Lower your viewpoint',tip:'Try a lower viewpoint and place the horizon along a third, not the center.',target:{x:2/3,y:2/3}},
+ architecture:{label:'Architecture',angle:'Keep verticals straight',tip:'Step back instead of tilting up. Keep the camera upright to reduce converging lines.',target:{x:.5,y:.5}},
+ food:{label:'Food & detail',angle:'Try a 45° angle',tip:'Start around 45° for depth, or directly overhead for a flat composition.',target:{x:2/3,y:1/3}}
+};
+export function nearestThird(x,y){const points=[1/3,2/3];let best=null;for(const px of points)for(const py of points){const d=Math.hypot(x-px,y-py);if(!best||d<best.distance)best={x:px,y:py,distance:d};}return best;}
+export function framingAdvice(subject,target){if(!subject)return {title:'Choose your focal point',detail:'Tap your subject in the viewfinder to get framing guidance.',aligned:false};const dx=subject.x-target.x,dy=subject.y-target.y;const aligned=Math.hypot(dx,dy)<.065;if(aligned)return {title:'Framing is in place',detail:'Your selected point is near the guide. Check the background, then capture.',aligned:true};const horizontal=dx>0?'right':'left',vertical=dy>0?'down':'up';return {title:`Pan ${Math.abs(dx)>Math.abs(dy)?horizontal:vertical} slightly`,detail:'Move the camera so your selected subject moves toward the green target. Tap again after reframing.',aligned:false};}
+export function horizonRoll(beta,gamma,screenAngle=0){const angle=((screenAngle%360)+360)%360;let roll=angle===90?-beta:angle===270?beta:angle===180?-gamma:gamma;while(roll>90)roll-=180;while(roll< -90)roll+=180;return roll;}
+export function exposureAdvice(value){return value<45?'Low light — find a brighter spot or steady your camera.':value>215?'Bright scene — watch for lost highlight detail.':'Light looks balanced — check your subject’s face and highlights.';}
