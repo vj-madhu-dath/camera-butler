@@ -63,7 +63,7 @@ async function enableAI(mode){
  try{
   if(mode==='sample')await $('demoImage').decode();
   if(epoch!==aiEpoch)return;
-  const worker=new Worker('/detector-worker.js');aiWorker=worker;
+  const worker=new Worker('./detector-worker.js');aiWorker=worker;
   worker.onmessage=({data})=>{
    if(epoch!==aiEpoch)return;
    if(data.type==='error'){console.warn('Local detector:',data.message);aiFailure('On-device AI could not start or process a frame. Try manual framing.');return;}
